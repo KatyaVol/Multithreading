@@ -4,6 +4,7 @@
 
 ## User settings
 xcuserdata/
+.xcuserdata
 IDEWorkspaceChecks.plist
 contents.xcworkspacedata
 
