@@ -12,8 +12,8 @@ final class MainViewBuilder {
         
         let requestService = RequestService()
         let networkService = NetworkService()
-        let appService = AppService(networkService: networkService, requestService: requestService)
-        let presenter = MainViewPresenter(appService: appService)
+        let appProvider = AppProvider(networkService: networkService, requestService: requestService)
+        let presenter = MainViewPresenter(appProvider: appProvider)
         let viewController = MainViewController(presenter: presenter)
         presenter.view = viewController
         

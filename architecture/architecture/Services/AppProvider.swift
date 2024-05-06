@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol AppServiceProtocol {
+protocol AppProviderProtocol {
     func fetchJoke(completion: @escaping (Result<Joke, NetworkError>) -> Void)
     func fetchPosts(completion: @escaping (Result<[Posts], NetworkError>) -> Void)
     func fetchImage(completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
 
-final class AppService: AppServiceProtocol {
+final class AppProvider: AppProviderProtocol {
     
     // MARK: - Private Properties
     
@@ -30,17 +30,17 @@ final class AppService: AppServiceProtocol {
     // MARK: - Methods
     
     func fetchJoke(completion: @escaping (Result<Joke, NetworkError>) -> Void) {
-        guard let request = requestService.getJoke() else { return }
+        guard let request = try? requestService.getData(host: .baseJokeUrl, path: .jokePath) else { return }
         networkService.fetchData(request: request, completion: completion)
     }
     
     func fetchPosts(completion: @escaping (Result<[Posts], NetworkError>) -> Void) {
-        guard let request = requestService.getPosts() else { return }
+        guard let request = try? requestService.getData(host: .jsonplaceholderUrl, path: .commentsPath) else { return }
         networkService.fetchData(request: request, completion: completion)
     }
     
     func fetchImage(completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let request = requestService.getImage() else { return }
+        guard let request = try? requestService.getData(host: .imageUrl, path: .imagePath) else { return }
         networkService.fetchImage(request: request, completion: completion)
     }
 }

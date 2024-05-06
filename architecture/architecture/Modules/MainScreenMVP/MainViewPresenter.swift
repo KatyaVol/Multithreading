@@ -17,12 +17,12 @@ final class MainViewPresenter: MainViewPresenterProtocol {
     
     // MARK: - Private Properties
     
-    private let appService: AppServiceProtocol
+    private let appProvider: AppProviderProtocol
     
     // MARK: - Init
     
-    init(appService: AppServiceProtocol) {
-        self.appService = appService
+    init(appProvider: AppProviderProtocol) {
+        self.appProvider = appProvider
     }
     
     //MARK: - Methods
@@ -37,7 +37,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             var imageData: Data?
             
             group.enter()
-            self?.appService.fetchJoke { [weak self] result in
+            self?.appProvider.fetchJoke { [weak self] result in
                 guard self != nil else { return }
                 switch result {
                 case .success(let jokeModel):
@@ -49,7 +49,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             }
             
             group.enter()
-            self?.appService.fetchPosts { [weak self] result in
+            self?.appProvider.fetchPosts { [weak self] result in
                 guard self != nil else { return }
                 switch result {
                 case .success(let postsModel):
@@ -61,7 +61,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             }
             
             group.enter()
-            self?.appService.fetchImage { [weak self] result in
+            self?.appProvider.fetchImage { [weak self] result in
                 guard self != nil else { return }
                 switch result {
                 case .success(let data):

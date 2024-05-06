@@ -7,40 +7,27 @@
 
 import Foundation
 
+enum BaseUrls: String {
+    case baseJokeUrl = "https://api.chucknorris.io"
+    case jsonplaceholderUrl = "https://jsonplaceholder.typicode.com"
+    case imageUrl = "https://www.planetware.com"
+}
+
+enum Path: String {
+    case jokePath = "/jokes/random"
+    case commentsPath = "/comments"
+    case imagePath = "/photos-large/F/france-paris-eiffel-tower.jpg"
+}
+
 protocol RequestServiceProtocol {
-    func getJoke() -> URLRequest?
-    func getPosts() -> URLRequest?
-    func getImage() -> URLRequest?
+    func getData(host: BaseUrls, path: Path) throws -> URLRequest?
 }
 
 final class RequestService: RequestServiceProtocol {
     
-    private enum BaseUrls {
-        static let baseJokeUrl = "https://api.chucknorris.io"
-        static let jsonplaceholderUrl = "https://jsonplaceholder.typicode.com"
-        static let imageUrl = "https://www.planetware.com"
-    }
-    
-    private enum Path {
-        static let jokePath = "/jokes/random"
-        static let commentsPath = "/comments"
-        static let imagePath = "/photos-large/F/france-paris-eiffel-tower.jpg"
-    }
-    
-    func getJoke() -> URLRequest? {
-        guard let url = URL(string: BaseUrls.baseJokeUrl + Path.jokePath) else { return nil }
-        let request = URLRequest(url: url)
-        return request
-    }
-    
-    func getPosts() -> URLRequest? {
-        guard let url = URL(string: BaseUrls.jsonplaceholderUrl + Path.commentsPath) else { return nil}
-        let request = URLRequest(url: url)
-        return request
-    }
-    
-    func getImage() -> URLRequest? {
-        guard let url = URL(string: BaseUrls.imageUrl + Path.imagePath) else { return nil}
+    func getData(host: BaseUrls, path: Path) throws -> URLRequest? {
+        guard let url = URL(string: host.rawValue + path.rawValue) else {
+            throw NetworkError.badRequest}
         let request = URLRequest(url: url)
         return request
     }
