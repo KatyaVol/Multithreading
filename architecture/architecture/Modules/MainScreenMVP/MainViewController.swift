@@ -12,6 +12,7 @@ protocol MainViewControllerProtocol: AnyObject {
     func fetchPostsSucceeded(posts: [Posts])
     func fetchImageSucceeded(image: Data)
     func fetchFailed(error: NetworkError)
+    func updateView(with viewModel: MainViewModel)
     func stopActivityIndicator()
 }
 
@@ -104,6 +105,26 @@ final class MainViewController: UIViewController {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func updateView(with viewModel: MainViewModel) {
+        if let joke = viewModel.joke {
+            fetchJokeSucceeded(joke: joke)
+        }
+        
+        if let posts = viewModel.posts {
+            fetchPostsSucceeded(posts: posts)
+        }
+        
+        if let networkError = viewModel.networkError {
+            fetchFailed(error: networkError)
+        }
+        
+        if let imageData = viewModel.imageData {
+            fetchImageSucceeded(image: imageData)
+        }
+        
+        stopActivityIndicator()
     }
     
     // MARK: - Private Methods

@@ -11,7 +11,8 @@ struct Joke: Decodable {
     let categories: [String]?
     let createdAt: String
     let iconURL: String
-    let id, updatedAt: String
+    let id: String
+    let updatedAt: String
     let url: String
     let value: String
 

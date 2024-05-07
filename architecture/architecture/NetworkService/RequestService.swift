@@ -20,14 +20,15 @@ enum Path: String {
 }
 
 protocol RequestServiceProtocol {
-    func getData(host: BaseUrls, path: Path) throws -> URLRequest?
+    func getData(host: BaseUrls, path: Path) throws -> URLRequest
 }
 
 final class RequestService: RequestServiceProtocol {
     
-    func getData(host: BaseUrls, path: Path) throws -> URLRequest? {
+    func getData(host: BaseUrls, path: Path) throws -> URLRequest {
         guard let url = URL(string: host.rawValue + path.rawValue) else {
-            throw NetworkError.badRequest}
+            throw NetworkError.badRequest
+        }
         let request = URLRequest(url: url)
         return request
     }
