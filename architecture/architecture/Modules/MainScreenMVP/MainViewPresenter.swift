@@ -28,7 +28,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
     //MARK: - Methods
     
     func fetchButtonTapped() {
-        DispatchQueue.global().async { [weak self] in
+       
             let group = DispatchGroup()
             let myQueue = DispatchQueue.global()
             
@@ -39,9 +39,9 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             
             let fetchJokeWorkItem = DispatchWorkItem {
                 group.enter()
-                self?.appProvider.fetchJoke { [weak self] result in
+                self.appProvider.fetchJoke { [weak self] result in
                     defer { group.leave() }
-                    guard let self = self else { return }
+                    guard self != nil else { return }
                     switch result {
                     case .success(let jokeModel):
                         joke = jokeModel
@@ -53,9 +53,9 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             
             let fetchPostsWorkItem = DispatchWorkItem {
                 group.enter()
-                self?.appProvider.fetchPosts { [weak self] result in
+                self.appProvider.fetchPosts { [weak self] result in
                     defer { group.leave() }
-                    guard let self = self else { return }
+                    guard self != nil else { return }
                     switch result {
                     case .success(let postsModel):
                         posts = postsModel
@@ -67,9 +67,9 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             
             let fetchImageWorkItem = DispatchWorkItem {
                 group.enter()
-                self?.appProvider.fetchImage { [weak self] result in
+                self.appProvider.fetchImage { [weak self] result in
                     defer { group.leave() }
-                    guard let self = self else { return }
+                    guard self != nil else { return }
                     switch result {
                     case .success(let data):
                         imageData = data
@@ -92,6 +92,6 @@ final class MainViewPresenter: MainViewPresenterProtocol {
                     self?.view.updateView(with: viewModel)
                 }
             }
-        }
+        
     }
 }
